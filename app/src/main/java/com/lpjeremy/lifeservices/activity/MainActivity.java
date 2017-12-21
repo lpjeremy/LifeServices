@@ -28,6 +28,9 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.lpjeremy.lifeservices.R;
 import com.lpjeremy.lifeservices.activity.base.BaseActivity;
+import com.lpjeremy.lifeservices.utils.http.HttpRequestApi;
+import com.lpjeremy.lifeservices.utils.http.base.BaseResult;
+import com.lpjeremy.lifeservices.utils.http.base.HttpRequestCallBack;
 
 import java.util.ArrayList;
 
@@ -97,7 +100,21 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+        HttpRequestApi.getInstance().login("18628047079", "666666", new HttpRequestCallBack<BaseResult>() {
+            @Override
+            public void onComplete(BaseResult result) {
+                if (result.getCode() == 1) {
+                    Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "登录失败 err = " + result.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFail(Throwable throwable) {
+                Toast.makeText(mContext, "失败 err = " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void searchWCData(final String keyWord) {
